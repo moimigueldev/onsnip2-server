@@ -8,6 +8,7 @@ const loginRoute = require('./routes/login')
 const userRoute = require('./routes/user')
 const playlistRoute = require('./routes/playlist')
 const artistsRoute = require('./routes/artists')
+const trackRoute = require('./routes/tracks')
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -19,6 +20,7 @@ app.use('/auth', loginRoute);
 app.use('/profile', userRoute);
 app.use('/playlist', playlistRoute);
 app.use('/artists', artistsRoute);
+app.use('/tracks', trackRoute);
 
 app.get('/', (req, res) => {
     res.send('ok')
