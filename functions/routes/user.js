@@ -36,6 +36,13 @@ router.post('/user-dashboard', async (req, res) => {
             'Access-Control-Allow-Origin': keys.cors['spotify-header']
         }
     };
+    const topArtistOptions = {
+        url: 'https://api.spotify.com/v1/me/top/artists?limit=10',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Access-Control-Allow-Origin': keys.cors['spotify-header']
+        }
+    };
 
 
 
@@ -43,6 +50,7 @@ router.post('/user-dashboard', async (req, res) => {
     let playlistCount = await rp(playlistOptions)
     let featuredPlaylist = await rp(featuredPlaylistOptions)
     let newReleases = await rp(newReleasesOptions)
+    let topArtist = await rp(topArtistOptions)
 
     playlistCount = JSON.parse(playlistCount)
 
@@ -51,7 +59,8 @@ router.post('/user-dashboard', async (req, res) => {
         profile: JSON.parse(user),
         playlist: playlistCount,
         featuredPlaylist: JSON.parse(featuredPlaylist),
-        newReleases: JSON.parse(newReleases)
+        newReleases: JSON.parse(newReleases),
+        topArtists: JSON.parse(topArtist)
     })
 
 })
