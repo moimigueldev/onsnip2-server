@@ -64,6 +64,26 @@ router.post('/unfollow-artist', (req, res) => {
     rp(unfollowArtistOptions).then((response) => {
         res.send({ artistResponse: response })
     })
+});
+
+
+router.post('/top-artists', (req, res) => {
+    const token = req.body.token
+    const id = req.body.id;
+    const time = req.body.time
+
+    console.log('time', time)
+    const topArtistOptions = {
+        url: `https://api.spotify.com/v1/me/top/artists?time_range=${time}&limit=50`,
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Access-Control-Allow-Origin': keys.cors['spotify-header']
+        }
+    };
+
+    rp(topArtistOptions).then(response => {
+        res.send(JSON.parse(response))
+    })
 })
 
 
