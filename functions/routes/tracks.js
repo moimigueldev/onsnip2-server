@@ -36,7 +36,6 @@ router.post('/top-tracks', (req, res) => {
     const token = req.body.token
     const id = req.body.id;
     const time = req.body.time
-    console.log('top tracks', time);
 
     const topTracksOptions = {
         url: `https://api.spotify.com/v1/me/top/tracks?time_range=${time}&limit=50`,
@@ -47,6 +46,22 @@ router.post('/top-tracks', (req, res) => {
     };
 
     rp(topTracksOptions).then(response => {
+        res.send({ tracks: JSON.parse(response) })
+    })
+})
+
+router.post('/recent-tracks', (req, res) => {
+    const token = req.body.token
+
+    const recentTracksOptions = {
+        url: `https://api.spotify.com/v1/me/player/recently-played`,
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Access-Control-Allow-Origin': keys.cors['spotify-header']
+        }
+    };
+
+    rp(recentTracksOptions).then(response => {
         res.send({ tracks: JSON.parse(response) })
     })
 })
