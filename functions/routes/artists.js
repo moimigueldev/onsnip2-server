@@ -6,6 +6,7 @@ router.post('/artist', async (req, res) => {
     const token = req.body.token
     const id = req.body.id;
 
+
     const artistOptions = {
         url: `https://api.spotify.com/v1/artists/${id}`,
         headers: {
@@ -23,8 +24,13 @@ router.post('/artist', async (req, res) => {
     };
 
 
-    const artist = await rp(artistOptions)
-    const isFollowing = await rp(isFollowingOptions)
+
+    const artist = await rp(artistOptions).catch((err) => {
+        res.send({ err: "access token expired" })
+    })
+    const isFollowing = await rp(isFollowingOptions).catch((err) => {
+        res.send({ err: "access token expired" })
+    })
 
     res.send({ artist: JSON.parse(artist), following: isFollowing })
 });
@@ -45,6 +51,8 @@ router.post('/follow-artist', (req, res) => {
 
     rp(followArtistOptions).then((response) => {
         res.send({ artistResponse: response })
+    }).catch((err) => {
+        res.send({ err: "access token expired" })
     })
 })
 
@@ -64,14 +72,17 @@ router.post('/unfollow-artist', (req, res) => {
 
     rp(unfollowArtistOptions).then((response) => {
         res.send({ artistResponse: response })
+    }).catch((err) => {
+        res.send({ err: "access token expired" })
     })
 });
 
 
 router.post('/top-artists', (req, res) => {
     const token = req.body.token
-    const id = req.body.id;
+
     const time = req.body.time
+
 
     const topArtistOptions = {
         url: `https://api.spotify.com/v1/me/top/artists?time_range=${time}&limit=50`,
@@ -83,6 +94,8 @@ router.post('/top-artists', (req, res) => {
 
     rp(topArtistOptions).then(response => {
         res.send(JSON.parse(response))
+    }).catch((err) => {
+        res.send({ err: "access token expired" })
     })
 })
 

@@ -17,8 +17,9 @@ router.post('/playlistId', (req, res) => {
     };
 
     rp(playlistOptions).then(response => {
-
         res.send(JSON.parse(response))
+    }).catch((err) => {
+        res.send({ err: "access token expired" })
     })
 })
 
@@ -36,6 +37,8 @@ router.post('/all-playlist', (req, res) => {
 
     rp(playlistOptions).then(response => {
         res.send({ playlist: JSON.parse(response) })
+    }).catch((err) => {
+        res.send({ err: "access token expired" })
     })
 
 })
@@ -55,6 +58,8 @@ router.post('/user-playlist', (req, res) => {
 
     rp(playlistOptions).then(response => {
         res.send({ playlist: JSON.parse(response) })
+    }).catch((err) => {
+        res.send({ err: "access token expired" })
     })
 
 })

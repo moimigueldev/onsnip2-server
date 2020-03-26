@@ -21,8 +21,12 @@ router.post('/track', async (req, res) => {
         }
     };
 
-    const trackFeatures = await rp(trackFeaturesOptions)
-    const track = await rp(trackOptions)
+    const trackFeatures = await rp(trackFeaturesOptions).catch((err) => {
+        res.send({ err: "access token expired" })
+    })
+    const track = await rp(trackOptions).catch((err) => {
+        res.send({ err: "access token expired" })
+    })
 
     res.send({
         track: JSON.parse(track),
@@ -47,6 +51,8 @@ router.post('/top-tracks', (req, res) => {
 
     rp(topTracksOptions).then(response => {
         res.send({ tracks: JSON.parse(response) })
+    }).catch((err) => {
+        res.send({ err: "access token expired" })
     })
 })
 
@@ -63,6 +69,8 @@ router.post('/recent-tracks', (req, res) => {
 
     rp(recentTracksOptions).then(response => {
         res.send({ tracks: JSON.parse(response) })
+    }).catch((err) => {
+        res.send({ err: "access token expired" })
     })
 })
 

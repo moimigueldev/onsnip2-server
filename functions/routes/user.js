@@ -46,13 +46,24 @@ router.post('/user-dashboard', async (req, res) => {
 
 
 
-    let user = await rp(userOptions)
-    let playlistCount = await rp(playlistOptions)
-    let featuredPlaylist = await rp(featuredPlaylistOptions)
-    let newReleases = await rp(newReleasesOptions)
-    let topArtist = await rp(topArtistOptions)
+    let user = await rp(userOptions).catch((err) => {
+        res.send({ err: "access token expired" })
+    })
+    let playlistCount = await rp(playlistOptions).catch((err) => {
+        res.send({ err: "access token expired" })
+    })
+    let featuredPlaylist = await rp(featuredPlaylistOptions).catch((err) => {
+        res.send({ err: "access token expired" })
+    })
+    let newReleases = await rp(newReleasesOptions).catch((err) => {
+        res.send({ err: "access token expired" })
+    })
+    let topArtist = await rp(topArtistOptions).catch((err) => {
+        res.send({ err: "access token expired" })
+    })
 
     playlistCount = JSON.parse(playlistCount)
+
 
 
     res.send({
