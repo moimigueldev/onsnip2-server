@@ -22,6 +22,7 @@ router.post('/artist', async (req, res) => {
         }
     };
 
+
     const artist = await rp(artistOptions)
     const isFollowing = await rp(isFollowingOptions)
 
@@ -72,7 +73,6 @@ router.post('/top-artists', (req, res) => {
     const id = req.body.id;
     const time = req.body.time
 
-    console.log('time', time)
     const topArtistOptions = {
         url: `https://api.spotify.com/v1/me/top/artists?time_range=${time}&limit=50`,
         headers: {
