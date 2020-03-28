@@ -46,33 +46,71 @@ router.post('/user-dashboard', async (req, res) => {
 
 
 
-    let user = await rp(userOptions).catch((err) => {
-        res.send({ err: "access token expired" })
+    // let user = await rp(userOptions).catch((err) => {
+    //     res.send({ err: "access token expired" })
+    // })
+    // let playlistCount = await rp(playlistOptions).catch((err) => {
+    //     res.send({ err: "access token expired" })
+    // })
+    // let featuredPlaylist = await rp(featuredPlaylistOptions).catch((err) => {
+    //     res.send({ err: "access token expired" })
+    // })
+    // let newReleases = await rp(newReleasesOptions).catch((err) => {
+    //     res.send({ err: "access token expired" })
+    // })
+    // let topArtist = await rp(topArtistOptions).catch((err) => {
+    //     res.send({ err: "access token expired" })
+    // })
+
+    // playlistCount = JSON.parse(playlistCount)
+
+
+
+    // res.send({
+    //     profile: JSON.parse(user),
+    //     playlist: playlistCount,
+    //     featuredPlaylist: JSON.parse(featuredPlaylist),
+    //     newReleases: JSON.parse(newReleases),
+    //     topArtists: JSON.parse(topArtist)
+    // })
+    let user = await rp(userOptions).then(response => {
+        return JSON.parse(response)
+    }).catch((err) => {
+        return false
     })
-    let playlistCount = await rp(playlistOptions).catch((err) => {
-        res.send({ err: "access token expired" })
+    let playlistCount = await rp(playlistOptions).then(response => {
+        return JSON.parse(response)
+    }).catch((err) => {
+        return false
     })
-    let featuredPlaylist = await rp(featuredPlaylistOptions).catch((err) => {
-        res.send({ err: "access token expired" })
+    let featuredPlaylist = await rp(featuredPlaylistOptions).then(response => {
+        return JSON.parse(response)
+    }).catch((err) => {
+        return false
     })
-    let newReleases = await rp(newReleasesOptions).catch((err) => {
-        res.send({ err: "access token expired" })
+    let newReleases = await rp(newReleasesOptions).then(response => {
+        return JSON.parse(response)
+    }).catch((err) => {
+        return false
     })
-    let topArtist = await rp(topArtistOptions).catch((err) => {
-        res.send({ err: "access token expired" })
+    let topArtist = await rp(topArtistOptions).then(response => {
+        return JSON.parse(response)
+    }).catch((err) => {
+        return false
     })
 
-    playlistCount = JSON.parse(playlistCount)
 
 
-
-    res.send({
-        profile: JSON.parse(user),
+    user && playlistCount && featuredPlaylist && newReleases && topArtist ? res.send({
+        profile: user,
         playlist: playlistCount,
-        featuredPlaylist: JSON.parse(featuredPlaylist),
-        newReleases: JSON.parse(newReleases),
-        topArtists: JSON.parse(topArtist)
-    })
+        featuredPlaylist: featuredPlaylist,
+        newReleases: newReleases,
+        topArtists: topArtist
+    }) :
+        res.sendStatus(500)
+
+
 
 })
 

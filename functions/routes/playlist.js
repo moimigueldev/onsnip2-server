@@ -25,7 +25,7 @@ router.post('/playlistId', (req, res) => {
 
 router.post('/all-playlist', (req, res) => {
     const token = req.body.token;
-    console.log('url hit')
+
 
     const playlistOptions = {
         url: `https://api.spotify.com/v1/me/playlists?limit=50`,

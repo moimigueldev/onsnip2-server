@@ -68,9 +68,9 @@ router.post('/recent-tracks', (req, res) => {
     };
 
     rp(recentTracksOptions).then(response => {
-        res.send({ tracks: JSON.parse(response) })
+        return res.send({ tracks: JSON.parse(response) })
     }).catch((err) => {
-        res.send({ err: "access token expired" })
+        return res.sendStatus(500)
     })
 })
 
