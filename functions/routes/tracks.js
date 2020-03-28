@@ -21,17 +21,23 @@ router.post('/track', async (req, res) => {
         }
     };
 
-    const trackFeatures = await rp(trackFeaturesOptions).catch((err) => {
-        res.send({ err: "access token expired" })
+    const trackFeatures = await rp(trackFeaturesOptions).then(response => {
+        return JSON.parse(response)
+    }).catch((err) => {
+        return false
     })
-    const track = await rp(trackOptions).catch((err) => {
-        res.send({ err: "access token expired" })
+    const track = await rp(trackOptions).then(response => {
+        return JSON.parse(response)
+    }).catch((err) => {
+        return false
     })
 
-    res.send({
-        track: JSON.parse(track),
-        trackFeatures: JSON.parse(trackFeatures)
-    })
+    trackFeatures && track ? res.send({
+        track: track,
+        trackFeatures: trackFeatures
+    }) : res.sendStatus(500)
+
+
 
 });
 

@@ -91,9 +91,9 @@ router.post('/top-artists', (req, res) => {
     };
 
     rp(topArtistOptions).then(response => {
-        res.send(JSON.parse(response))
+        return res.send(JSON.parse(response))
     }).catch((err) => {
-        res.send({ err: "access token expired" })
+        return res.sendStatus(500)
     })
 })
 

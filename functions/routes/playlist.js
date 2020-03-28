@@ -17,9 +17,9 @@ router.post('/playlistId', (req, res) => {
     };
 
     rp(playlistOptions).then(response => {
-        res.send(JSON.parse(response))
+        return res.send(JSON.parse(response))
     }).catch((err) => {
-        res.send({ err: "access token expired" })
+        return res.sendStatus(500)
     })
 })
 
