@@ -23,37 +23,13 @@ router.post('/artist', async (req, res) => {
         }
     };
 
-
-
-    // const artist = await rp(artistOptions).catch((err) => {
-    //     return res.status(500)
-    //     // res.send({ err: "access token expired" })
-    // })
-    // const isFollowing = await rp(isFollowingOptions).then(response => {
-    //     return res.send({ artist: JSON.parse(artist), following: response })
-    // }).catch((err) => {
-    //     return res.status(500)
-    // })
-
     const artist = await rp(artistOptions)
-        .then(response => {
-            return JSON.parse(response)
-        })
-        .catch((err) => {
-            return false
-        })
-    const isFollowing = await rp(isFollowingOptions).then(response => {
-        return response
+        .then(response => JSON.parse(response))
+        .catch((err) => false)
 
-    }).catch((err) => {
-        return false
-    })
+    const isFollowing = await rp(isFollowingOptions).then(response => response).catch((err) => false)
 
-    if (artist && isFollowing) {
-        res.send({ artist, following: isFollowing })
-    } else {
-        res.sendStatus(500)
-    }
+    artist && isFollowing ? res.send({ artist, following: isFollowing }) : res.sendStatus(500)
 
 });
 

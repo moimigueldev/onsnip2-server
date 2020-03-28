@@ -25,7 +25,7 @@ router.post('/playlistId', (req, res) => {
 
 router.post('/all-playlist', (req, res) => {
     const token = req.body.token;
-
+    console.log('url hit')
 
     const playlistOptions = {
         url: `https://api.spotify.com/v1/me/playlists?limit=50`,
@@ -36,9 +36,9 @@ router.post('/all-playlist', (req, res) => {
     };
 
     rp(playlistOptions).then(response => {
-        res.send({ playlist: JSON.parse(response) })
+        return res.send({ playlist: JSON.parse(response) })
     }).catch((err) => {
-        res.send({ err: "access token expired" })
+        return res.sendStatus(500)
     })
 
 })
@@ -46,7 +46,6 @@ router.post('/all-playlist', (req, res) => {
 router.post('/user-playlist', (req, res) => {
     const token = req.body.token;
     const id = req.body.id
-
 
     const playlistOptions = {
         url: `	https://api.spotify.com/v1/playlists/${id}`,
@@ -57,9 +56,9 @@ router.post('/user-playlist', (req, res) => {
     };
 
     rp(playlistOptions).then(response => {
-        res.send({ playlist: JSON.parse(response) })
+        return res.send({ playlist: JSON.parse(response) })
     }).catch((err) => {
-        res.send({ err: "access token expired" })
+        return res.sendStatus(500)
     })
 
 })
